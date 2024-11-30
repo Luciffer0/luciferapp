@@ -6,10 +6,11 @@ import LoginPage from './pages/LoginPage';
 
 const App = () => {
   return (
-    <Router>
+    <Router> 
       <div>
         <Routes>
         <Route path="/" element={<LoginPage />} /> {/* Default Home */}
+
           <Route path="/LoginPage" element={<LoginPage />} />
           <Route path="LoginPage/HomePage" element={<HomePage />} />
           <Route path="/HomePage/ExpandedGameCard" element={<ExpandedGameCard />} />
