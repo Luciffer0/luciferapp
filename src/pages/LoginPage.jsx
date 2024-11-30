@@ -13,6 +13,7 @@ import {
   LogIn,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { HiLockOpen, HiLockClosed } from "react-icons/hi";
 
 import { LineChart, Line, ResponsiveContainer, Tooltip, YAxis } from "recharts";
 
@@ -88,6 +89,7 @@ const DashboardLayout = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const stats = [
     {
@@ -132,12 +134,7 @@ const DashboardLayout = () => {
       prediction: "93%",
       nextUpdate: "3h",
       winStreak: 7,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 50 + Math.random() * 40,
-        })),
-      trend: "upward",
+      lastPredictions: sampleChartData,
     },
     {
       id: 2,
@@ -173,12 +170,7 @@ const DashboardLayout = () => {
       prediction: "97%",
       nextUpdate: "3h",
       winStreak: 10,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 50 + Math.random() * 40,
-        })),
-      trend: "upward",
+      lastPredictions: sampleChartData,
     },
     {
       id: 6,
@@ -187,12 +179,7 @@ const DashboardLayout = () => {
       prediction: "80%",
       nextUpdate: "6h",
       winStreak: 2,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 50 + Math.random() * 40,
-        })),
-      trend: "upward",
+      lastPredictions: sampleChartData,
     },
     {
       id: 7,
@@ -441,10 +428,10 @@ const DashboardLayout = () => {
     const interval = setInterval(() => {
       setNotifications((prev) => {
         const newNotif = generateNotification();
-        const updated = [newNotif, ...prev].slice(0, 5);
+        const updated = [newNotif, ...prev].slice(0, 2);
         return updated;
       });
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -466,26 +453,25 @@ const DashboardLayout = () => {
           </div>
         </div>
       )}
-
       <>
         {/* Navigation Bar */}
         <nav className="bg-gray-900/90 backdrop-blur-xl shadow-xl border-b border-violet-600/20 sticky top-0 z-50">
-          <div className="flex items-center justify-between p-4 max-w-7xl mx-auto">
+          <div className="flex items-center justify-between p-3 max-w-7xl mx-auto">
             {/* Logo Section */}
-            <div className="flex items-center gap-4">
-              <h1 className="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-300 to-violet-500 hover:scale-105 transition-transform cursor-default">
-                <span className="text-emerald-400 font-normal animate-pulse">
+            <div className="flex items-center">
+              <h1 className="text-lg font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-300 to-violet-500 hover:scale-105 transition-transform cursor-default">
+                <span className="text-emerald-400 font-normal animate-pulse text-sm">
                   &lt;
                 </span>
                 Lucifer Mod
-                <span className="text-emerald-400 font-normal animate-pulse">
+                <span className="text-emerald-400 font-normal animate-pulse text-sm">
                   /&gt;
                 </span>
               </h1>
             </div>
 
             {/* Mobile Menu Toggle */}
-            <div className="sm:hidden flex items-center">
+            <div className="sm:hidden">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="text-violet-400 hover:text-violet-300 focus:outline-none"
@@ -495,7 +481,7 @@ const DashboardLayout = () => {
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                 >
                   <path
                     strokeLinecap="round"
@@ -507,143 +493,113 @@ const DashboardLayout = () => {
               </button>
             </div>
 
-            {/* Desktop Navigation Items */}
+            {/* Navigation Items */}
             <div
-              className={`flex items-center gap-3 ${
-                isMobileMenuOpen
-                  ? "flex-col absolute top-16 right-0 bg-gray-800 w-full px-4 py-2"
-                  : "hidden sm:flex"
-              }`}
+              className={`
+            sm:flex items-center gap-2 
+            ${
+              isMobileMenuOpen
+                ? "absolute top-full left-0 w-full bg-gray-900 flex flex-col p-4 space-y-2 shadow-lg"
+                : "hidden sm:flex"
+            }`}
             >
-              {/* Support Button */}
               <button
                 onClick={() => setActiveModal("support")}
-                className="px-4 py-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 border border-violet-500/20 hover:border-violet-500/50 text-violet-400 hover:text-violet-300 transition-all duration-200"
+                className="nav-btn"
               >
-                <HelpCircle size={18} />
-                <span>Support</span>
+                <HelpCircle size={16} />
+                <span className="ml-1">Support</span>
               </button>
 
-              {/* About Button */}
               <button
                 onClick={() => setActiveModal("about")}
-                className="px-4 py-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 border border-violet-500/20 hover:border-violet-500/50 text-violet-400 hover:text-violet-300 transition-all duration-200"
+                className="nav-btn"
               >
-                <Info size={18} />
-                <span>About</span>
+                <Info size={16} />
+                <span className="ml-1">About</span>
               </button>
 
-              {/* Telegram Channel Button */}
               <a
                 href="https://telegram.me/luciffer_mod7"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded-lg bg-gray-800/50 hover:bg-gray-700/50 border border-violet-500/20 hover:border-violet-500/50 text-violet-400 hover:text-violet-300 transition-all duration-200"
+                className="nav-btn"
               >
-                <button className="inline-flex items-center">
-                  <Send className="w-4 h-4 mr-1" />
-                  Join Telegram Channel
-                </button>
+                <Send size={16} />
+                <span className="ml-1">Telegram</span>
               </a>
 
-              {/* Login Button */}
               <button
                 onClick={() => setActiveModal("login")}
-                className="px-6 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white font-medium shadow-lg shadow-violet-500/20 border border-violet-500/20 transition-all duration-300"
+                className="login-btn"
               >
-                <LogIn size={18} />
-                <span>Login</span>
+                <LogIn size={16} />
+                <span className="ml-1">Login</span>
               </button>
             </div>
           </div>
-        </nav>{" "}
+        </nav>
+
         {/* Modal */}
         {activeModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div
-              className="absolute inset-0 bg-black/90 backdrop-blur-md"
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
               onClick={() => setActiveModal(null)}
             />
 
-            <div
-              className="relative w-full max-w-lg m-4 p-8 rounded-3xl shadow-2xl 
-            bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 
-            border border-gray-700/50
-            animate-in zoom-in-95 duration-300"
-            >
-              {/* Close Button */}
+            <div className="relative w-full max-w-md bg-gray-800 rounded-xl border border-gray-700 p-6 shadow-xl">
               <button
                 onClick={() => setActiveModal(null)}
-                className="absolute top-4 right-4 p-2 rounded-full 
-                bg-gray-800/80 hover:bg-gray-700/80
-                border border-gray-700/50 hover:border-violet-500/50
-                transition-all duration-200"
+                className="absolute top-3 right-3 p-1 rounded-full bg-gray-700 hover:bg-gray-600"
               >
-                <X className="w-5 h-5 text-gray-400 hover:text-white" />
+                <X className="w-4 h-4 text-gray-300" />
               </button>
-
-              {/* Modal Content */}
-              <div>
-                {activeModal === "login" && (
-                  <div className="space-y-6">
-                    <h2
-                      className="text-2xl font-bold text-center bg-gradient-to-r from-violet-400 via-purple-500 to-violet-600 
-            bg-clip-text text-transparent"
-                    >
-                      Login to Lucifer mod
-                    </h2>
-                    <form className="space-y-4" onSubmit={handleLogin}>
-                      <div>
-                        <input
-                          type="email"
-                          placeholder="Email Address"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          className="w-full px-4 py-3 
-                  bg-gray-800/30 backdrop-blur-sm
-                  border border-gray-700/50 
-                  rounded-xl
-                  text-gray-200
-                  placeholder:text-gray-500
-                  focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50
-                  transition-all duration-200"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="password"
-                          placeholder="Password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          className="w-full px-4 py-3 
-                  bg-gray-800/30 backdrop-blur-sm
-                  border border-gray-700/50 
-                  rounded-xl
-                  text-gray-200
-                  placeholder:text-gray-500
-                  focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-500/50
-                  transition-all duration-200"
-                        />
-                      </div>
-                      {error && (
-                        <p className="text-red-500 text-sm text-center">
-                          {error}
-                        </p>
-                      )}
+              {activeModal === "login" && (
+                <div className="space-y-4">
+                  <h2 className="text-xl font-bold text-center text-violet-400">
+                    Login to Lucifer mod
+                  </h2>
+                  <form onSubmit={handleLogin} className="space-y-3">
+                    <input
+                      type="email"
+                      placeholder="Email Address"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full px-3 py-2 bg-gray-700 rounded-lg text-gray-200 focus:ring-violet-500"
+                    />
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"} // Toggle between "text" and "password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="w-full px-3 py-2 bg-gray-700 rounded-lg text-gray-200 focus:ring-violet-500"
+                      />
                       <button
-                        type="submit"
-                        className="w-full py-3 px-4 
-                bg-gradient-to-r from-violet-600 to-purple-600 
-                hover:from-violet-500 hover:to-purple-500
-                rounded-xl font-medium text-white
-                shadow-lg shadow-violet-500/20
-                border border-violet-500/20
-                transition-all duration-300"
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-3 flex items-center text-gray-400 hover:text-violet-400"
                       >
-                        Login
+                        {showPassword ? (
+                          <HiLockOpen size={20} />
+                        ) : (
+                          <HiLockClosed size={20} />
+                        )}
                       </button>
-                      <div className="text-center">
-                        <a
+                    </div>
+                    {error && (
+                      <p className="text-red-500 text-sm text-center">
+                        {error}
+                      </p>
+                    )}
+                    <button
+                      type="submit"
+                      className="w-full py-2 bg-violet-600 hover:bg-violet-500 rounded-lg text-white"
+                    >
+                      Login
+                    </button>
+                    <a
                           href="#"
                           className="text-sm text-violet-400 hover:text-violet-300 transition-colors"
                           onClick={(e) => {
@@ -653,40 +609,26 @@ const DashboardLayout = () => {
                         >
                           Not a member? Join VIP now
                         </a>
-                      </div>
-                    </form>
-                  </div>
-                )}
-              </div>
-
-              {activeModal === "support" && (
-                <div className="space-y-6">
-                  <h2
-                    className="text-2xl font-bold text-center bg-gradient-to-r from-violet-400 via-purple-500 to-violet-600 
-                  bg-clip-text text-transparent"
-                  >
-                    24/7 Support
-                  </h2>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-center gap-4">
-                      <a
-                        href="https://t.me/Luciffer712"
-                        className="flex items-center gap-2 px-6 py-3 
-                      bg-violet-600 hover:bg-violet-500 
-                      rounded-xl text-white font-medium
-                      transition-all duration-200"
-                      >
-                        <Send size={20} />
-                        Telegram Support
-                      </a>
-                    </div>
-                    <p className="text-gray-400 text-center text-sm">
-                      Average response time: 5 minutes
-                    </p>
-                  </div>
+                  </form>
                 </div>
               )}
-
+              {activeModal === "support" && (
+                <div className="text-center space-y-4">
+                  <h2 className="text-xl font-bold text-violet-400">
+                    24/7 Support
+                  </h2>
+                  <a
+                    href="https://t.me/Luciffer712"
+                    className="inline-flex items-center px-4 py-2 bg-violet-600 rounded-lg text-white"
+                  >
+                    <Send size={16} className="mr-2" />
+                    Telegram Support
+                  </a>
+                  <p className="text-gray-400 text-sm">
+                    Average response time: 5 minutes
+                  </p>
+                </div>
+              )}
               {activeModal === "about" && (
                 <div className="space-y-6">
                   <h2
@@ -724,31 +666,32 @@ const DashboardLayout = () => {
                     </button>
                   </div>
                 </div>
-              )}
+              )}{" "}
             </div>
           </div>
         )}
       </>
 
-      {/* Live Activity Feed with enhanced animations */}
-      <div className="fixed right-6 top-20 w-72 z-40 space-y-3">
-        {notifications.map((notif, index) => (
+      <div className="fixed right-2 top-16 w-64 z-40 space-y-2">
+        {notifications.slice(0, 4).map((notif, index) => (
           <div
             key={notif.id}
             style={{
               animationDelay: `${index * 100}ms`,
             }}
-            className="bg-gray-900/90 backdrop-blur-xl border border-violet-600/30 rounded-xl p-4 shadow-xl animate-slide-left hover:border-violet-500/50 hover:translate-x-1 transition-all duration-300"
+            className="bg-gray-900/80 backdrop-blur-lg border border-violet-600/20 rounded-lg p-3 shadow-md animate-slide-left hover:border-violet-500/50 hover:translate-x-1 transition-all duration-300"
           >
-            <div className="flex items-center gap-3">
-              <span className="text-xl animate-bounce">{notif.icon}</span>
-              <div>
-                <span className="font-semibold text-sm text-violet-300">
-                  {notif.name}
-                </span>
-                <span className="text-sm ml-1 text-gray-200">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">{notif.icon}</span>
+              <div className="flex-grow overflow-hidden">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-xs text-violet-300 truncate">
+                    {notif.name}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-300 truncate">
                   {notif.message}
-                </span>
+                </p>
               </div>
             </div>
           </div>
@@ -793,10 +736,6 @@ const DashboardLayout = () => {
           {games.map((game, index) => (
             <div
               key={game.id}
-              onClick={() => {
-                setSelectedGame(game);
-                setModalOpen(true);
-              }}
               className={`bg-gray-900/80 backdrop-blur-xl rounded-xl shadow-xl border border-violet-600/20 p-6 hover:border-violet-500/40 transition-all duration-300 ${
                 animateStats ? "animate-fade-in-up" : ""
               }`}
@@ -856,13 +795,20 @@ const DashboardLayout = () => {
                     {game.winStreak} win streak
                   </div>
                 </div>
-                <button className="flex items-center gap-1 text-violet-400 hover:text-violet-300 px-3 py-1 rounded-lg hover:bg-violet-500/15 transition-all duration-300 font-medium">
+                <button
+                  className="flex items-center gap-1 text-violet-400 hover:text-violet-300 px-3 py-1 rounded-lg hover:bg-violet-500/15 transition-all duration-300 font-medium"
+                  onClick={(event) => {
+                    event.stopPropagation(); // Prevent click from propagating to parent div
+                    setSelectedGame(game);
+                    setModalOpen(true);
+                  }}
+                >
                   View Details
                   <ChevronRight
                     size={16}
                     className="group-hover:translate-x-1 transition-transform duration-300"
                   />
-                </button>
+                </button>{" "}
               </div>
             </div>
           ))}
@@ -894,31 +840,32 @@ const DashboardLayout = () => {
               </button>
 
               {/* Content */}
-              <div className="flex flex-col items-center space-y-6 text-center">
+              <div className="flex flex-col items-center space-y-4 text-center">
                 {/* Title */}
                 <h2
-                  className="text-3xl font-bold bg-gradient-to-r from-violet-400 via-purple-500 to-violet-600 
-              bg-clip-text text-transparent"
+                  className="text-xl font-bold bg-gradient-to-r from-violet-400 via-purple-500 to-violet-600 
+    bg-clip-text text-transparent"
                 >
                   Join VIP Subscription
                 </h2>
 
                 {/* Benefits */}
-                <div className="space-y-2">
-                  <p className="text-xl font-semibold text-white">
+                <div className="space-y-1">
+                  <p className="text-base font-semibold text-white">
                     Unlimited Benefits
                   </p>
-                  <p className="text-lg text-violet-400">
+                  <p className="text-sm text-violet-400">
                     Access to 15+ Premium Apps
                   </p>
-                  <p className="text-2xl font-bold text-white">₹1,499 Only</p>
+                  <p className="text-lg font-bold text-white">₹1,499 Only</p>
                 </div>
+
                 {/* QR Code Placeholder */}
-                <div className="bg-white p-4 rounded-xl">
+                <div className="bg-white p-2 rounded-lg">
                   <img
-                    src="/QRCODE.jpg" // Correct path for the image in the public folder
+                    src="/QRCODE.jpg"
                     alt="Payment QR Code"
-                    className="w-48 h-48"
+                    className="w-32 h-32"
                   />
                 </div>
 

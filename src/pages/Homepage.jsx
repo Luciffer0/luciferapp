@@ -170,6 +170,7 @@ const DashboardLayout = () => {
       return;
     }
     setIsLoading(true); // Start loading
+    setNumbers("");
 
     setTimeout(() => {
       const { colors, text, number } = getRandomColorsAndValues(); // Use the merged function
@@ -301,12 +302,7 @@ const DashboardLayout = () => {
       prediction: "80%",
       nextUpdate: "6h",
       winStreak: 2,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 50 + Math.random() * 30,
-        })),
-      trend: "downward",
+      lastPredictions: sampleChartData,
     },
     {
       id: 7,
@@ -316,12 +312,7 @@ const DashboardLayout = () => {
       prediction: "89%",
       nextUpdate: "4h",
       winStreak: 4,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 65 + Math.random() * 25,
-        })),
-      trend: "steady",
+      lastPredictions: sampleChartData,
     },
     {
       id: 8,
@@ -341,12 +332,7 @@ const DashboardLayout = () => {
       prediction: "84%",
       nextUpdate: "5h",
       winStreak: 3,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 60 + Math.random() * 30,
-        })),
-      trend: "downward",
+      lastPredictions: sampleChartData,
     },
     {
       id: 10,
@@ -356,12 +342,7 @@ const DashboardLayout = () => {
       prediction: "90%",
       nextUpdate: "3h",
       winStreak: 6,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 55 + Math.random() * 35,
-        })),
-      trend: "steady",
+      lastPredictions: sampleChartData,
     },
     {
       id: 11,
@@ -371,12 +352,7 @@ const DashboardLayout = () => {
       prediction: "87%",
       nextUpdate: "4h",
       winStreak: 5,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 65 + Math.random() * 25,
-        })),
-      trend: "upward",
+      lastPredictions: sampleChartData,
     },
     {
       id: 12,
@@ -396,12 +372,7 @@ const DashboardLayout = () => {
       prediction: "93%",
       nextUpdate: "3h",
       winStreak: 7,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 70 + Math.random() * 25,
-        })),
-      trend: "steady",
+      lastPredictions: sampleChartData,
     },
     {
       id: 14,
@@ -411,12 +382,7 @@ const DashboardLayout = () => {
       prediction: "83%",
       nextUpdate: "6h",
       winStreak: 3,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 60 + Math.random() * 30,
-        })),
-      trend: "upward",
+      lastPredictions: sampleChartData,
     },
     {
       id: 15,
@@ -452,12 +418,7 @@ const DashboardLayout = () => {
       prediction: "85%",
       nextUpdate: "2h",
       winStreak: 5,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 50 + Math.random() * 40,
-        })),
-      trend: "upward",
+      lastPredictions: sampleChartData,
     },
     {
       id: 18,
@@ -478,12 +439,7 @@ const DashboardLayout = () => {
       prediction: "92%",
       nextUpdate: "3h",
       winStreak: 7,
-      lastPredictions: Array(20)
-        .fill()
-        .map((_, i) => ({
-          value: 40 + Math.random() * 50,
-        })),
-      trend: "downward",
+      lastPredictions: sampleChartData,
     },
     {
       id: 20,
@@ -575,10 +531,10 @@ const DashboardLayout = () => {
     const interval = setInterval(() => {
       setNotifications((prev) => {
         const newNotif = generateNotification();
-        const updated = [newNotif, ...prev].slice(0, 5);
+        const updated = [newNotif, ...prev].slice(0, 2);
         return updated;
       });
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -655,29 +611,31 @@ const DashboardLayout = () => {
       </nav>
 
       {/* Live Activity Feed with enhanced animations */}
-      <div className="fixed right-6 top-20 w-72 z-40 space-y-3">
-        {notifications.map((notif, index) => (
-          <div
-            key={notif.id}
-            style={{
-              animationDelay: `${index * 100}ms`,
-            }}
-            className="bg-gray-900/90 backdrop-blur-xl border border-violet-600/30 rounded-xl p-4 shadow-xl animate-slide-left hover:border-violet-500/50 hover:translate-x-1 transition-all duration-300"
-          >
-            <div className="flex items-center gap-3">
-              <span className="text-xl animate-bounce">{notif.icon}</span>
-              <div>
-                <span className="font-semibold text-sm text-violet-300">
-                  {notif.name}
-                </span>
-                <span className="text-sm ml-1 text-gray-200">
-                  {notif.message}
-                </span>
-              </div>
-            </div>
+      {/* <div className="fixed right-2 top-16 w-64 z-40 space-y-2">
+  {notifications.slice(0, 4).map((notif, index) => (
+    <div
+      key={notif.id}
+      style={{
+        animationDelay: `${index * 100}ms`,
+      }}
+      className="bg-gray-900/80 backdrop-blur-lg border border-violet-600/20 rounded-lg p-3 shadow-md animate-slide-left hover:border-violet-500/50 hover:translate-x-1 transition-all duration-300"
+    >
+      <div className="flex items-center gap-2">
+        <span className="text-lg">{notif.icon}</span>
+        <div className="flex-grow overflow-hidden">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-xs text-violet-300 truncate">
+              {notif.name}
+            </span>
           </div>
-        ))}
+          <p className="text-xs text-gray-300 truncate">
+            {notif.message}
+          </p>
+        </div>
       </div>
+    </div>
+  ))}
+</div> */}
 
       {/* Main Content with animations */}
       <main className="p-6 max-w-7xl mx-auto">
@@ -717,10 +675,6 @@ const DashboardLayout = () => {
           {games.map((game, index) => (
             <div
               key={game.id}
-              onClick={() => {
-                setSelectedGame(game);
-                setModalOpen(true);
-              }}
               className={`bg-gray-900/80 backdrop-blur-xl rounded-xl shadow-xl border border-violet-600/20 p-6 hover:border-violet-500/40 transition-all duration-300 ${
                 animateStats ? "animate-fade-in-up" : ""
               }`}
@@ -780,16 +734,23 @@ const DashboardLayout = () => {
                     {game.winStreak} win streak
                   </div>
                 </div>
-                <button className="flex items-center gap-1 text-violet-400 hover:text-violet-300 px-3 py-1 rounded-lg hover:bg-violet-500/15 transition-all duration-300 font-medium">
+                <button
+                  className="flex items-center gap-1 text-violet-400 hover:text-violet-300 px-3 py-1 rounded-lg hover:bg-violet-500/15 transition-all duration-300 font-medium"
+                  onClick={(event) => {
+                    event.stopPropagation(); // Prevent click from propagating to parent div
+                    setSelectedGame(game);
+                    setModalOpen(true);
+                  }}
+                >
                   View Details
                   <ChevronRight
                     size={16}
                     className="group-hover:translate-x-1 transition-transform duration-300"
                   />
-                </button>
+                </button>{" "}
               </div>
             </div>
-          ))}
+          ))}{" "}
         </div>
       </main>
 
@@ -821,37 +782,39 @@ const DashboardLayout = () => {
 
             {/* Pop-up Message */}
             {showPopup && (
-  <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md z-50">
-    <div className="p-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white rounded-2xl shadow-xl text-center space-y-6 w-96">
-      <p className="text-lg font-semibold">
-        Important Notice: To enjoy the mod, please create a new account by clicking the 'Register' button. If you try to use the mod on an existing account, it may not work. So, click on 'Register' to create a new account and get started. Thank you!
-      </p>
-      <div className="flex justify-between space-x-4">
-        {/* Register Button */}
-        <button
-          onClick={handleDownloadApp}
-          className="w-1/2 px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 rounded-lg font-medium text-white shadow-lg transition-all duration-300"
-        >
-          Register
-          <audio
-            ref={audioRef}
-            src="/wws.mp3"
-            onEnded={() => setIsPlaying(false)}
-          />
-        </button>
-        {/* Continue Button */}
-        <button
-          onClick={() => setShowPopup(false)}
-          className="w-1/2 px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 rounded-lg font-medium text-white shadow-lg transition-all duration-300"
-        >
-          Continue
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
-
+              <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md z-50">
+                <div className="p-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white rounded-2xl shadow-xl text-center space-y-6 w-96">
+                  <p className="text-lg font-semibold">
+                    Important Notice: To enjoy the mod, please create a new
+                    account by clicking the 'Register' button. If you try to use
+                    the mod on an existing account, it may not work. So, click
+                    on 'Register' to create a new account and get started. Thank
+                    you!
+                  </p>
+                  <div className="flex justify-between space-x-4">
+                    {/* Register Button */}
+                    <button
+                      onClick={handleDownloadApp}
+                      className="w-1/2 px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 rounded-lg font-medium text-white shadow-lg transition-all duration-300"
+                    >
+                      Register
+                      <audio
+                        ref={audioRef}
+                        src="/wws.mp3"
+                        onEnded={() => setIsPlaying(false)}
+                      />
+                    </button>
+                    {/* Continue Button */}
+                    <button
+                      onClick={() => setShowPopup(false)}
+                      className="w-1/2 px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 rounded-lg font-medium text-white shadow-lg transition-all duration-300"
+                    >
+                      Continue
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Game Title */}
             <h2
