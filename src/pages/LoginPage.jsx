@@ -852,12 +852,12 @@ const DashboardLayout = () => {
                 {/* Benefits */}
                 <div className="space-y-1">
                   <p className="text-base font-semibold text-white">
-                    Unlimited Benefits
+                    Unlimited Benefits with cheapest Prize
                   </p>
                   <p className="text-sm text-violet-400">
                     Access to 15+ Premium Apps
                   </p>
-                  <p className="text-lg font-bold text-white">₹1,499 Only</p>
+                  <p className="text-lg font-bold text-white">₹399 Only</p>
                 </div>
 
                 {/* QR Code Placeholder */}
