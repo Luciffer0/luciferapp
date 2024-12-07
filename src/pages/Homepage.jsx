@@ -766,90 +766,64 @@ const DashboardLayout = () => {
               setResultColors("");
             }}
           />
-          {/* Modal Container */}
+          
+          {/* Modal Container - More Compact */}
           <div
-            className="relative w-full max-w-2xl h-[80vh] m-4 p-8 rounded-3xl shadow-2xl overflow-y-auto 
-      bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 
-      border border-gray-700/50
-      animate-in zoom-in-95 duration-300"
+            className="relative w-[90%] max-w-md mx-auto h-auto 
+            m-2 p-4 rounded-2xl shadow-2xl overflow-y-auto 
+            bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 
+            border border-gray-700/50
+            animate-in zoom-in-95 duration-300"
           >
+            {/* Logout Button - Smaller */}
             <button
               onClick={handleLogout}
-              className="py-3 px-4 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 rounded-xl font-medium text-white shadow-lg shadow-violet-500/20 border border-violet-500/20 transition-all duration-300"
+              className="py-1.5 px-2.5 text-xs 
+              bg-gradient-to-r from-violet-600 to-purple-600 
+              hover:from-violet-500 hover:to-purple-500 
+              rounded-lg font-medium text-white 
+              shadow-lg shadow-violet-500/20 
+              border border-violet-500/20 
+              transition-all duration-300"
             >
               Logout
             </button>
 
-            {/* Pop-up Message */}
-            {showPopup && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/70 backdrop-blur-md z-50">
-                <div className="p-8 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white rounded-2xl shadow-xl text-center space-y-6 w-96">
-                  <p className="text-lg font-semibold">
-                    Important Notice: To enjoy the mod, please create a new
-                    account by clicking the 'Register' button. If you try to use
-                    the mod on an existing account, it may not work. So, click
-                    on 'Register' to create a new account and get started. Thank
-                    you!
-                  </p>
-                  <div className="flex justify-between space-x-4">
-                    {/* Register Button */}
-                    <button
-                      onClick={handleDownloadApp}
-                      className="w-1/2 px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 rounded-lg font-medium text-white shadow-lg transition-all duration-300"
-                    >
-                      Register
-                      <audio
-                        ref={audioRef}
-                        src="/wws.mp3"
-                        onEnded={() => setIsPlaying(false)}
-                      />
-                    </button>
-                    {/* Continue Button */}
-                    <button
-                      onClick={() => setShowPopup(false)}
-                      className="w-1/2 px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 rounded-lg font-medium text-white shadow-lg transition-all duration-300"
-                    >
-                      Continue
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Game Title */}
+            {/* Game Title - Reduced Size */}
             <h2
-              className="text-4xl font-bold text-center mt-16
-        bg-gradient-to-r from-violet-400 via-purple-500 to-violet-600 
-        bg-clip-text text-transparent mb-10"
+              className="text-2xl font-bold text-center mt-4 mb-4
+              bg-gradient-to-r from-violet-400 via-purple-500 to-violet-600 
+              bg-clip-text text-transparent"
             >
               {selectedGame?.title}
             </h2>
 
-            {/* Rest of the Modal Content */}
-            <div className="flex flex-col items-center space-y-10">
-              {/* Server Status */}
+            {/* Main Content - More Compact */}
+            <div className="flex flex-col items-center space-y-4">
+              {/* Server Status - Smaller */}
               <div
-                className="flex items-center space-x-3 
-          bg-gray-800/40 backdrop-blur-sm
-          px-5 py-2.5 rounded-full
-          border border-gray-700/50 shadow-lg"
+                className="flex items-center space-x-1.5 
+                bg-gray-800/40 backdrop-blur-sm
+                px-2 py-1 rounded-full
+                border border-gray-700/50 shadow-lg
+                text-xs"
               >
                 <div
-                  className={`w-2.5 h-2.5 rounded-full 
-              ${
-                serverActive
-                  ? "bg-green-500 animate-pulse shadow-lg shadow-green-500/50"
-                  : "bg-red-500 shadow-lg shadow-red-500/50"
-              }`}
+                  className={`w-1.5 h-1.5 rounded-full 
+                  ${
+                    serverActive
+                      ? "bg-green-500 animate-pulse shadow-lg shadow-green-500/50"
+                      : "bg-red-500 shadow-lg shadow-red-500/50"
+                  }`}
                 />
-                <span className="text-sm font-medium text-gray-200">
-                  Server Status: {serverActive ? "Active" : "Inactive"}
+                <span className="font-medium text-gray-200">
+                  {serverActive ? "Active" : "Inactive"}
                 </span>
               </div>
 
-              {/* Input and Submit Section */}
-              <div className="w-full max-w-md space-y-6">
-                <h3 className="text-lg font-semibold text-gray-200 text-center">
+              {/* Input Section - More Compact */}
+              <div className="w-full max-w-md space-y-3">
+                <h3 className="text-sm font-semibold text-gray-200 text-center">
                   Enter up to 3 Numbers
                 </h3>
                 <input
@@ -857,73 +831,74 @@ const DashboardLayout = () => {
                   placeholder="Enter period"
                   value={numbers}
                   onChange={(e) => setNumbers(e.target.value)}
-                  className="w-full px-5 py-4 bg-gray-800/30 border rounded-xl text-lg"
+                  className="w-full px-3 py-2 text-sm bg-gray-800/30 border rounded-xl"
                 />
                 <button
                   onClick={handleSubmit}
-                  className="w-full py-4 bg-gradient-to-r from-violet-600 to-purple-600 rounded-xl"
+                  className="w-full py-2.5 text-sm
+                  bg-gradient-to-r from-violet-600 to-purple-600 
+                  rounded-xl"
                 >
                   Submit Period
                 </button>
 
-                <div className="w-full max-w-2xl mx-auto mt-8">
-                  {/* Main Result Container */}
-                  <div className="bg-gray-800/50 rounded-xl p-8 w-full max-w-md mx-auto">
+                {/* Results Section - Compact */}
+                <div className="w-full mx-auto mt-4">
+                  <div className="bg-gray-800/50 rounded-xl p-4 w-full">
                     {isLoading ? (
-                      <div className="flex flex-col items-center py-8">
-                        <div className="w-10 h-10 border-3 border-violet-500/30 border-t-violet-500 rounded-full animate-spin" />
-                        <p className="mt-4 text-gray-400 animate-pulse">
+                      <div className="flex flex-col items-center py-4">
+                        <div className="w-8 h-8 border-2 border-violet-500/30 border-t-violet-500 rounded-full animate-spin" />
+                        <p className="mt-2 text-xs text-gray-400 animate-pulse">
                           Processing...
                         </p>
                       </div>
                     ) : (
                       resultColors.length > 0 && (
-                        <div className="space-y-8">
-                          {/* Centered Color Circles Container */}
+                        <div className="space-y-4">
+                          {/* Compact Color Circles */}
                           <div className="flex justify-center items-center">
-                            <div className="grid grid-cols-3 gap-6 w-full max-w-[280px]">
+                            <div className="grid grid-cols-3 gap-3 w-full max-w-[200px]">
                               {resultColors.map((color, index) => (
                                 <div
                                   key={index}
-                                  className="w-20 h-20 rounded-full transition-transform duration-200 
-                    hover:scale-110 cursor-pointer shadow-lg
-                    flex items-center justify-center"
+                                  className="w-12 h-12 rounded-full transition-transform duration-200 
+                                  hover:scale-110 cursor-pointer shadow-md
+                                  flex items-center justify-center"
                                   style={{
                                     backgroundColor: color,
-                                    boxShadow: `0 0 20px ${color}40`,
+                                    boxShadow: `0 0 10px ${color}40`,
                                   }}
                                 />
                               ))}
                             </div>
                           </div>
 
-                          {/* Result Section */}
-                          <div className="w-full mt-8">
-                            {/* Divider with enhanced styling */}
+                          {/* Compact Result Section */}
+                          <div className="w-full mt-4">
                             <div className="relative">
                               <div className="absolute inset-0 flex items-center">
                                 <div className="w-full border-t border-gray-700/50" />
                               </div>
                               <div className="relative flex justify-center">
-                                <span className="bg-gray-800/50 px-4 text-sm text-gray-500 uppercase tracking-wider">
+                                <span className="bg-gray-800/50 px-2 text-xs text-gray-500 uppercase tracking-wider">
                                   Result
                                 </span>
                               </div>
                             </div>
 
-                            {/* Result Text Container */}
-                            <div className="mt-6 text-center">
+                            {/* Compact Result Text */}
+                            <div className="mt-3 text-center">
                               <div
-                                className="inline-flex items-center justify-center gap-3 px-6 py-3 
-                bg-gray-800/30 rounded-full border border-gray-700/30"
+                                className="inline-flex items-center justify-center gap-2 px-4 py-2 
+                                bg-gray-800/30 rounded-full border border-gray-700/30"
                               >
                                 <span
-                                  className="text-2xl font-bold bg-gradient-to-r from-violet-400 via-purple-500 to-violet-500 
-                    bg-clip-text text-transparent"
+                                  className="text-lg font-bold bg-gradient-to-r from-violet-400 via-purple-500 to-violet-500 
+                                  bg-clip-text text-transparent"
                                 >
                                   {randomText}
                                 </span>
-                                <span className="text-3xl font-bold text-white">
+                                <span className="text-xl font-bold text-white">
                                   {randomNumber}
                                 </span>
                               </div>
@@ -937,14 +912,8 @@ const DashboardLayout = () => {
               </div>
             </div>
           </div>
-          <div className="absolute top-0 left-0 w-full overflow-hidden bg-gradient-to-r from-violet-600 to-purple-600">
-            <div className="relative w-full overflow-hidden bg-red-600">
-              <div className="overflow-hidden bg-red-600"></div>
-            </div>{" "}
-          </div>{" "}
         </div>
       )}
-
       <Button
         onClick={handleHomePageNavigation}
         className="bg-primary text-primary-foreground hover:bg-primary/90"
